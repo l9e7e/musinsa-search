@@ -1,6 +1,8 @@
+import { Button } from './type';
+
 interface ToggledButtonList {
-  toggledButtonList: string[];
-  removeToggledButton: (toggledButton?: string) => void;
+  toggledButtonList: Button[];
+  removeToggledButton: (toggledButton?: Button) => void;
 }
 
 export default function ToggledButtonList({

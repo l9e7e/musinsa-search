@@ -1,12 +1,12 @@
 import { Ref, SyntheticEvent } from 'react';
-import { Goods } from './App';
 import NoGoods from './NoGoods';
+import { Button, Goods } from './type';
 
 interface GoodsList {
   goodsList: Goods[];
   nextFetchingRef: Ref<HTMLDivElement>;
   searchInput: string;
-  toggledButtonList: string[];
+  toggledButtonList: Button[];
 }
 
 export default function GoodsList({

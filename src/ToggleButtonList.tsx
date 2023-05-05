@@ -1,8 +1,10 @@
+import { Button } from './type';
+
 interface TopggleButtonList {
-  toggleButtonList: string[];
-  handleToggleButton: (value: string) => void;
+  toggleButtonList: Button[];
+  handleToggleButton: (value: Button) => void;
   isToggledSearchInputBar: boolean;
-  toggledButtonList: string[];
+  toggledButtonList: Button[];
 }
 
 export default function TopggleButtonList({

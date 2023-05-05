@@ -6,6 +6,8 @@ import SearchInputBar from './SearchInputBar';
 import DivdingLine from './DivdingLine';
 import GoodsList from './GoodsList';
 import StickyHeader from './StickyHeader';
+import { TOGGLED_BUTTON_LIST } from './constant';
+import { Button, Goods } from './type';
 
 function App() {
   const nextFetchingRef = useRef(null);
@@ -14,7 +16,7 @@ function App() {
 
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
   const [isToggledSearchInputBar, setIsToggledSearchInputBar] = useState(false);
-  const [toggledButtonList, setToggledButtonList] = useState<string[]>([]);
+  const [toggledButtonList, setToggledButtonList] = useState<Button[]>([]);
   const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
@@ -40,8 +42,8 @@ function App() {
     }
   };
 
-  const removeToggledButton = (toggleButton?: string) => {
-    if (!toggleButton) {
+  const removeToggledButton = (toggleButton?: Button) => {
+    if (toggleButton === undefined) {
       setToggledButtonList([]);
       return;
     }
@@ -53,7 +55,7 @@ function App() {
     );
   };
 
-  const handleToggleButton = (toggleButton: string) => {
+  const handleToggleButton = (toggleButton: Button) => {
     if (toggleButton === '검색') {
       setIsToggledSearchInputBar(!isToggledSearchInputBar);
     } else {
@@ -91,7 +93,7 @@ function App() {
       <StickyHeader>
         <MusinsaIcon />
         <ToggleButtonList
-          toggleButtonList={['검색', '세일상품', '단독상품', '품절포함']}
+          toggleButtonList={TOGGLED_BUTTON_LIST}
           handleToggleButton={handleToggleButton}
           isToggledSearchInputBar={isToggledSearchInputBar}
           toggledButtonList={toggledButtonList}
@@ -121,18 +123,3 @@ function App() {
 }
 
 export default App;
-
-export interface Goods {
-  goodsNo: number;
-  goodsName: string;
-  price: number;
-  brandName: string;
-  imageUrl: string;
-  linkUrl: string;
-  brandLinkUrl: string;
-  normalPrice: number;
-  isSale: boolean;
-  saleRate: number;
-  isSoldOut: boolean;
-  isExclusive: boolean;
-}
