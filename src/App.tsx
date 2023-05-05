@@ -1,5 +1,7 @@
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import NoResult from './NoResult';
+import ToggleButtonSection from './ToggleButtonSection';
+import ToggledButtonSection from './ToggledButtonSection';
 
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
@@ -28,7 +30,7 @@ function App() {
     }
   };
 
-  const removeFilteredButton = (clickedFilteredButton: string) => {
+  const removeToggledButton = (clickedFilteredButton: string) => {
     setFilteredButtonList(
       filterdButtonList.filter(
         (filterdButton) => filterdButton !== clickedFilteredButton
@@ -36,11 +38,15 @@ function App() {
     );
   };
 
-  const handleFilteredButtonList = (clickedFilteredButton: string) => {
-    if (filterdButtonList.includes(clickedFilteredButton)) {
-      removeFilteredButton(clickedFilteredButton);
+  const handleToggleButton = (clickedFilteredButton: string) => {
+    if (clickedFilteredButton === '검색') {
+      setIsToggledSearchButton(!isToggledSearchButton);
     } else {
-      setFilteredButtonList([...filterdButtonList, clickedFilteredButton]);
+      if (filterdButtonList.includes(clickedFilteredButton)) {
+        removeToggledButton(clickedFilteredButton);
+      } else {
+        setFilteredButtonList([...filterdButtonList, clickedFilteredButton]);
+      }
     }
   };
 
@@ -91,65 +97,14 @@ function App() {
         <div className='flex justify-center items-center h-[50px]'>
           <img className='!h-[16px]' src='/logo_musinsa.svg' />
         </div>
-        <div className='flex items-center justify-center h-[55px] gap-[5px] mx-[7px]'>
-          <button
-            className='flex items-center h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => setIsToggledSearchButton(!isToggledSearchButton)}
-          >
-            <span className='text-[14px] font-normal leading-[21px]'>검색</span>
-            <img
-              className='ml-[6px] !h-[15px] !w-[15px]'
-              src='/logo_search.png'
-            />
-          </button>
-          <button
-            className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => handleFilteredButtonList('세일상품')}
-          >
-            <span className='text-[14px] font-normal leading-[21px]'>
-              세일상품
-            </span>
-          </button>
-          <button
-            className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => handleFilteredButtonList('단독상품')}
-          >
-            <span className='text-[14px] font-normal leading-[21px]'>
-              단독상품
-            </span>
-          </button>
-          <button
-            className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => handleFilteredButtonList('품절포함')}
-          >
-            <span className='text-[14px] font-normal leading-[21px]'>
-              품절포함
-            </span>
-          </button>
-        </div>
-        {filterdButtonList.length > 0 && (
-          <div className='h-[50px] flex items-center justify-between ml-[15px]'>
-            <div className='flex gap-[5px]'>
-              {filterdButtonList.map((filterdButton) => {
-                return (
-                  <button
-                    className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'
-                    onClick={() => removeFilteredButton(filterdButton)}
-                  >
-                    <span className='text-[12px] font-normal leading-[18px]'>
-                      {filterdButton}
-                    </span>
-                    <img
-                      className='ml-[6px] !h-[15px] !w-[15px]'
-                      src='/logo_search.png'
-                    />
-                  </button>
-                );
-              })}
-            </div>
-            <div className='w-[50px] h-[50px] bg-[#000000]' />
-          </div>
-        )}
+        <ToggleButtonSection
+          toggleButtonList={['검색', '세일상품', '단독상품', '품절포함']}
+          handleToggleButton={handleToggleButton}
+        />
+        <ToggledButtonSection
+          filterdButtonList={filterdButtonList}
+          removeToggledButton={removeToggledButton}
+        />
         {isToggledSearchButton && (
           <div className='h-[80px] bg-[#F9F9F9] flex items-center'>
             <div className='h-[40px] bg-[#FFFFFF] flex items-center mx-[10px] w-full border border-solid border-[#CCCCCC]'>
