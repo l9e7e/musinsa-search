@@ -23,8 +23,8 @@ export default function ToggledButtonList({
                     {toggledButton}
                   </span>
                   <img
-                    className='ml-[6px] !h-[15px] !w-[15px]'
-                    src='/logo_search.png'
+                    className='ml-[6px] !h-[8px] !w-[8px]'
+                    src='/icon_remove.png'
                   />
                 </button>
               );
