@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import NoGoods from './NoGoods';
 import ToggleButtonList from './ToggleButtonList';
 import ToggledButtonList from './ToggledButtonList';
 import MusinsaIcon from './MusinsaIcon';
 import SearchInputBar from './SearchInputBar';
 import Line from './Line';
 import GoodsList from './GoodsList';
+import StickyHeader from './StickyHeader';
 
 function App() {
   const nextFetchingRef = useRef(null);
@@ -88,7 +88,7 @@ function App() {
 
   return (
     <div className='w-[375px] mx-auto'>
-      <div className='sticky top-0 z-10 bg-white'>
+      <StickyHeader>
         <MusinsaIcon />
         <ToggleButtonList
           toggleButtonList={['검색', '세일상품', '단독상품', '품절포함']}
@@ -106,7 +106,7 @@ function App() {
             setSearchInput={setSearchInput}
           />
         )}
-      </div>
+      </StickyHeader>
       <Line />
       <GoodsList
         goodsList={goodsList}
