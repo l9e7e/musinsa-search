@@ -1,8 +1,8 @@
 function App() {
   return (
     <div>
-      <div className='flex'>
-        <img src='/logo_musinsa.svg' />
+      <div className='flex justify-center items-center h-[50px]'>
+        <img className='!h-[16px]' src='/logo_musinsa.svg' />
       </div>
     </div>
   );
