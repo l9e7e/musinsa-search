@@ -34,22 +34,46 @@ function App() {
     }
   };
 
-  const removeToggledButton = (clickedFilteredButton: string) => {
+  const removeToggledButton = (toggleButton: string) => {
     setToggledButtonList(
       toggledButtonList.filter(
-        (filterdButton) => filterdButton !== clickedFilteredButton
+        (filterdButton) => filterdButton !== toggleButton
       )
     );
   };
 
-  const handleToggleButton = (clickedFilteredButton: string) => {
-    if (clickedFilteredButton === '검색') {
+  const handleToggleButton = (toggleButton: string) => {
+    if (toggleButton === '검색') {
       setIsToggledSearchInputBar(!isToggledSearchInputBar);
     } else {
-      if (toggledButtonList.includes(clickedFilteredButton)) {
-        removeToggledButton(clickedFilteredButton);
+      if (toggledButtonList.includes(toggleButton)) {
+        removeToggledButton(toggleButton);
       } else {
-        setToggledButtonList([...toggledButtonList, clickedFilteredButton]);
+        setToggledButtonList([...toggledButtonList, toggleButton]);
+
+        let searchedGoodsList: Goods[] = [];
+
+        if (toggleButton === '세일상품') {
+          searchedGoodsList = originGoodsList.current.filter((goods) => {
+            if (goods.isSale) {
+              return goods;
+            }
+          });
+        } else if (toggleButton === '단독상품') {
+          searchedGoodsList = originGoodsList.current.filter((goods) => {
+            if (goods.isExclusive) {
+              return goods;
+            }
+          });
+        } else {
+          console.log(searchedGoodsList);
+          searchedGoodsList = originGoodsList.current.filter((goods) => {
+            if (goods.isSoldOut) {
+              return goods;
+            }
+          });
+        }
+        setGoodsList(searchedGoodsList);
       }
     }
   };
