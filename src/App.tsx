@@ -83,19 +83,28 @@ function App() {
           <input className='outline-none' placeholder='상품명 검색' />
         </div>
       </div>
-      {goodsList.map((goods) => {
-        return (
-          <div>
-            <img
-              className='h-[188px]'
-              src={goods.imageUrl}
-              onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-                e.currentTarget.src = '/img_default.jpg';
-              }}
-            />
-          </div>
-        );
-      })}
+      <div className='flex flex-wrap'>
+        {goodsList.map((goods) => {
+          return (
+            <div>
+              <img
+                className='h-[188px]'
+                src={goods.imageUrl}
+                onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+                  e.currentTarget.src = '/img_default.jpg';
+                }}
+              />
+              <div>{goods.brandName}</div>
+              <div>{goods.goodsName}</div>
+              <div className='flex justify-between'>
+                <span>{goods.price}</span>
+                <span>{goods.saleRate}</span>
+              </div>
+              <div>{goods.normalPrice}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -103,5 +112,16 @@ function App() {
 export default App;
 
 interface Goods {
+  goodsNo: number;
+  goodsName: string;
+  price: number;
+  brandName: string;
   imageUrl: string;
+  linkUrl: string;
+  brandLinkUrl: string;
+  normalPrice: number;
+  isSale: boolean;
+  saleRate: number;
+  isSoldOut: boolean;
+  isExclusive: boolean;
 }
