@@ -97,17 +97,19 @@ function App() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (
-        [entry]: IntersectionObserverEntry[],
+        entries: IntersectionObserverEntry[],
         observer: IntersectionObserver
       ) => {
-        if (entry.isIntersecting) {
-          if (fetchingIndexRef.current === 3) {
-            observer.disconnect();
-          } else {
-            fetchingIndexRef.current += 1;
-            fetchGoodsList();
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (fetchingIndexRef.current === 3) {
+              observer.disconnect();
+            } else {
+              fetchingIndexRef.current += 1;
+              fetchGoodsList();
+            }
           }
-        }
+        });
       },
       {
         threshold: 1,

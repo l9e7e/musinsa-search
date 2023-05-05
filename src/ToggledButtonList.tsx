@@ -30,7 +30,11 @@ export default function ToggledButtonList({
               );
             })}
           </div>
-          <div className='w-[50px] h-[50px] bg-[#000000]' />
+          <div className='w-[50px] h-[50px] flex justify-center items-center'>
+            <button>
+              <img src='/icon_refresh.png' className='!h-[32px] !w-[32px]' />
+            </button>
+          </div>
         </div>
       )}
     </>
