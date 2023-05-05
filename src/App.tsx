@@ -128,7 +128,7 @@ function App() {
         {goodsList.map((goods) => {
           if (!goods.isSoldOut) {
             return (
-              <div className='basis-1/2' ref={goodsRef}>
+              <div key={goods.goodsNo} className='basis-1/2' ref={goodsRef}>
                 <div className='relative'>
                   <img
                     className='!h-[226px]'
