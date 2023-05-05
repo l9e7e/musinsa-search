@@ -15,6 +15,15 @@ function App() {
   const [isToggledSearchInputBar, setIsToggledSearchInputBar] = useState(false);
   const [toggledButtonList, setToggledButtonList] = useState<string[]>([]);
   const [searchInput, setSearchInput] = useState('');
+  const mountRef = useRef(false);
+
+  useEffect(() => {
+    if (mountRef.current) {
+      fetchGoodsList();
+    } else {
+      mountRef.current = true;
+    }
+  }, []);
 
   const fetchGoodsList = async () => {
     try {
@@ -45,7 +54,9 @@ function App() {
   const handleToggleButton = (toggleButton: string) => {
     if (toggleButton === '검색') {
       setIsToggledSearchInputBar(!isToggledSearchInputBar);
+      setToggledButtonList([]);
     } else {
+      setIsToggledSearchInputBar(false);
       if (toggledButtonList.includes(toggleButton)) {
         removeToggledButton(toggleButton);
       } else {
@@ -66,7 +77,6 @@ function App() {
             }
           });
         } else {
-          console.log(searchedGoodsList);
           searchedGoodsList = originGoodsList.current.filter((goods) => {
             if (goods.isSoldOut) {
               return goods;
@@ -80,19 +90,23 @@ function App() {
 
   const handleSearchInput = (searchInput: string) => {
     setSearchInput(searchInput);
-
-    const searchedGoodsList = originGoodsList.current.filter((goods) => {
-      if (goods.goodsName.includes(searchInput)) {
-        return goods;
-      }
-    });
-
-    setGoodsList(searchedGoodsList);
   };
 
   useEffect(() => {
-    fetchGoodsList();
-  }, []);
+    setGoodsList(
+      searchInput
+        ? originGoodsList.current.filter((goods) => {
+            if (goods.goodsName.includes(searchInput)) {
+              return goods;
+            }
+          })
+        : originGoodsList.current
+    );
+  }, [searchInput]);
+
+  useEffect(() => {
+    console.log(toggledButtonList);
+  }, [toggledButtonList]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -128,6 +142,8 @@ function App() {
         <ToggleButtonList
           toggleButtonList={['검색', '세일상품', '단독상품', '품절포함']}
           handleToggleButton={handleToggleButton}
+          isToggledSearchInputBar={isToggledSearchInputBar}
+          toggledButtonList={toggledButtonList}
         />
         <ToggledButtonList
           toggledButtonList={toggledButtonList}
