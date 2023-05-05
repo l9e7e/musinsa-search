@@ -86,15 +86,22 @@ function App() {
       <div className='flex flex-wrap'>
         {goodsList.map((goods) => {
           return (
-            <div>
-              <img
-                className='h-[188px]'
-                src={goods.imageUrl}
-                onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-                  e.currentTarget.src = '/img_default.jpg';
-                }}
-              />
-              <div>{goods.brandName}</div>
+            <div className='basis-1/2'>
+              <div className='relative'>
+                <img
+                  className='!h-[226px]'
+                  src={goods.imageUrl}
+                  onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+                    e.currentTarget.src = '/img_default.jpeg';
+                  }}
+                />
+                {goods.isExclusive && (
+                  <span className='absolute -bottom-[16px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
+                    단독
+                  </span>
+                )}
+              </div>
+              <div className='mt-[20px]'>{goods.brandName}</div>
               <div>{goods.goodsName}</div>
               <div className='flex justify-between'>
                 <span>{goods.price}</span>
