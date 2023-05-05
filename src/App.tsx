@@ -5,7 +5,7 @@ function App() {
   const goodsRef = useRef(null);
   const fetchingIndexRef = useRef(0);
   const [isToggledSearchButton, setIsToggledSearchButton] = useState(false);
-  const [filterdButtonList, setFilteredList] = useState<string[]>([]);
+  const [filterdButtonList, setFilteredButtonList] = useState<string[]>([]);
 
   const fetchGoodsList = async () => {
     try {
@@ -20,6 +20,22 @@ function App() {
     } catch (e) {
       console.error(e);
       setGoodsList(goodsList);
+    }
+  };
+
+  const removeFilteredButton = (clickedFilteredButton: string) => {
+    setFilteredButtonList(
+      filterdButtonList.filter(
+        (filterdButton) => filterdButton !== clickedFilteredButton
+      )
+    );
+  };
+
+  const handleFilteredButtonList = (clickedFilteredButton: string) => {
+    if (filterdButtonList.includes(clickedFilteredButton)) {
+      removeFilteredButton(clickedFilteredButton);
+    } else {
+      setFilteredButtonList([...filterdButtonList, clickedFilteredButton]);
     }
   };
 
@@ -72,7 +88,7 @@ function App() {
           </button>
           <button
             className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => setFilteredList([...filterdButtonList, '세일 상품'])}
+            onClick={() => handleFilteredButtonList('세일상품')}
           >
             <span className='text-[14px] font-normal leading-[21px]'>
               세일상품
@@ -80,7 +96,7 @@ function App() {
           </button>
           <button
             className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => setFilteredList([...filterdButtonList, '세일 상품'])}
+            onClick={() => handleFilteredButtonList('단독상품')}
           >
             <span className='text-[14px] font-normal leading-[21px]'>
               단독상품
@@ -88,7 +104,7 @@ function App() {
           </button>
           <button
             className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
-            onClick={() => setFilteredList([...filterdButtonList, '세일 상품'])}
+            onClick={() => handleFilteredButtonList('품절포함')}
           >
             <span className='text-[14px] font-normal leading-[21px]'>
               품절포함
@@ -100,7 +116,10 @@ function App() {
             <div className='flex gap-[5px]'>
               {filterdButtonList.map((filterdButton) => {
                 return (
-                  <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
+                  <button
+                    className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'
+                    onClick={() => removeFilteredButton(filterdButton)}
+                  >
                     <span className='text-[12px] font-normal leading-[18px]'>
                       {filterdButton}
                     </span>
