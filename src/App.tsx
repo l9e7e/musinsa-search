@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 
 function App() {
-  const [goods, setGoods] = useState([]);
+  const [goodsList, setGoodsList] = useState<Goods[]>([]);
 
-  const fetchGoods = async () => {
+  const fetchGoodsList = async () => {
     try {
       const response = await fetch(
         `https://static.msscdn.net/musinsaUI/homework/data/goods0.json`
@@ -12,16 +12,18 @@ function App() {
         data: { list },
       } = await response.json();
 
-      setGoods(list);
+      setGoodsList(list);
     } catch (e) {
       console.error(e);
-      setGoods([]);
+      setGoodsList([]);
     }
   };
 
   useEffect(() => {
-    fetchGoods();
+    fetchGoodsList();
   }, []);
+
+  console.log(goodsList);
 
   return (
     <div className='w-[375px] mx-auto'>
@@ -81,8 +83,25 @@ function App() {
           <input className='outline-none' placeholder='상품명 검색' />
         </div>
       </div>
+      {goodsList.map((goods) => {
+        return (
+          <div>
+            <img
+              className='h-[188px]'
+              src={goods.imageUrl}
+              onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+                e.currentTarget.src = '/img_default.jpg';
+              }}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 export default App;
+
+interface Goods {
+  imageUrl: string;
+}
