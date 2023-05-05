@@ -22,6 +22,30 @@ function App() {
           품절포함
         </button>
       </div>
+      <div className='h-[50px] flex items-center mx-[15px] gap-[5px]'>
+        <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
+          스니커즈
+          <img
+            className='ml-[6px] !h-[15px] !w-[15px]'
+            src='/logo_search.png'
+          />
+        </button>
+        <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
+          세일상품
+          <img
+            className='ml-[6px] !h-[15px] !w-[15px]'
+            src='/logo_search.png'
+          />
+        </button>
+        <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
+          단독상품
+          <img
+            className='ml-[6px] !h-[15px] !w-[15px]'
+            src='/logo_search.png'
+          />
+        </button>
+        <img className='!w-[50px]' src='/logo_search.png' />
+      </div>
       <div className='h-[80px] bg-[#F9F9F9] flex items-center'>
         <div className='h-[40px] bg-[#FFFFFF] flex items-center mx-[10px] w-full border border-solid border-[#CCCCCC]'>
           <img
