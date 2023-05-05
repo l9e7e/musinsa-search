@@ -101,13 +101,15 @@ function App() {
                   </span>
                 )}
               </div>
-              <div className='mt-[20px]'>{goods.brandName}</div>
-              <div>{goods.goodsName}</div>
-              <div className='flex justify-between'>
-                <span>{goods.price}</span>
-                <span>{goods.saleRate}</span>
+              <div className='mx-[10px]'>
+                <div className='mt-[20px]'>{goods.brandName}</div>
+                <div className='line-clamp-2 break-all'>{goods.goodsName}</div>
+                <div className='flex justify-between'>
+                  <span>{goods.price}</span>
+                  <span>{goods.saleRate}</span>
+                </div>
+                <div>{goods.normalPrice}</div>
               </div>
-              <div>{goods.normalPrice}</div>
             </div>
           );
         })}
