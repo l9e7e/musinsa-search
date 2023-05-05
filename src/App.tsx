@@ -4,6 +4,8 @@ function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
   const goodsRef = useRef(null);
   const fetchingIndexRef = useRef(0);
+  const [isToggledSearchButton, setIsToggledSearchButton] = useState(false);
+  const [filterdButtonList, setFilteredList] = useState<string[]>([]);
 
   const fetchGoodsList = async () => {
     try {
@@ -58,24 +60,36 @@ function App() {
           <img className='!h-[16px]' src='/logo_musinsa.svg' />
         </div>
         <div className='flex items-center justify-center h-[55px] gap-[5px] mx-[7px]'>
-          <button className='flex items-center h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
+          <button
+            className='flex items-center h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
+            onClick={() => setIsToggledSearchButton(!isToggledSearchButton)}
+          >
             <span className='text-[14px] font-normal leading-[21px]'>검색</span>
             <img
               className='ml-[6px] !h-[15px] !w-[15px]'
               src='/logo_search.png'
             />
           </button>
-          <button className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
+          <button
+            className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
+            onClick={() => setFilteredList([...filterdButtonList, '세일 상품'])}
+          >
             <span className='text-[14px] font-normal leading-[21px]'>
               세일상품
             </span>
           </button>
-          <button className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
+          <button
+            className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
+            onClick={() => setFilteredList([...filterdButtonList, '세일 상품'])}
+          >
             <span className='text-[14px] font-normal leading-[21px]'>
               단독상품
             </span>
           </button>
-          <button className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
+          <button
+            className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'
+            onClick={() => setFilteredList([...filterdButtonList, '세일 상품'])}
+          >
             <span className='text-[14px] font-normal leading-[21px]'>
               품절포함
             </span>
@@ -113,24 +127,26 @@ function App() {
           </div>
           <div className='w-[50px] h-[50px] bg-[#000000]' />
         </div>
-        <div className='h-[80px] bg-[#F9F9F9] flex items-center'>
-          <div className='h-[40px] bg-[#FFFFFF] flex items-center mx-[10px] w-full border border-solid border-[#CCCCCC]'>
-            <img
-              className='ml-[10px] mr-[4px] !h-[19px] !w-[19px]'
-              src='/logo_search.png'
-            />
-            <input
-              className='outline-none text-[16px] font-normal leading-[24px] placeholder:text-[#AAAAAA]'
-              placeholder='상품명 검색'
-            />
+        {isToggledSearchButton && (
+          <div className='h-[80px] bg-[#F9F9F9] flex items-center'>
+            <div className='h-[40px] bg-[#FFFFFF] flex items-center mx-[10px] w-full border border-solid border-[#CCCCCC]'>
+              <img
+                className='ml-[10px] mr-[4px] !h-[19px] !w-[19px]'
+                src='/logo_search.png'
+              />
+              <input
+                className='outline-none text-[16px] font-normal leading-[24px] placeholder:text-[#AAAAAA]'
+                placeholder='상품명 검색'
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className='flex flex-wrap'>
-        {goodsList.map((goods) => {
+        {goodsList.map((goods, index) => {
           if (!goods.isSoldOut) {
             return (
-              <div key={goods.goodsNo} className='basis-1/2' ref={goodsRef}>
+              <div key={index} className='basis-1/2' ref={goodsRef}>
                 <div className='relative'>
                   <img
                     className='!h-[226px]'
