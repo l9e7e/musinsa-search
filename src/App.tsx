@@ -76,7 +76,7 @@ function App() {
         if (entry.isIntersecting) {
           if (fetchingIndexRef.current === 3) {
             observer.disconnect();
-          } else {
+          } else if (goodsList.length > 0) {
             fetchingIndexRef.current += 1;
             fetchGoodsList();
           }

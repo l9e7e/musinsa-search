@@ -49,12 +49,9 @@ export default function GoodsList({
     list = list.filter((goods) => goods.goodsName.includes(searchInput));
   }
 
-  if (list.length === 0) {
-    return <NoGoods />;
-  }
-
   return (
     <div className='flex flex-wrap'>
+      {list.length === 0 && <NoGoods />}
       {list.map((goods, index) => {
         return (
           <div key={index} className='basis-1/2'>
