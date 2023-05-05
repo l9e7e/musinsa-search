@@ -1,11 +1,13 @@
+import { Dispatch, SetStateAction } from 'react';
+
 interface SearchInputBar {
   searchInput: string;
-  handleSearchInput: (searchInput: string) => void;
+  setSearchInput: Dispatch<SetStateAction<string>>;
 }
 
 export default function SearchInputBar({
   searchInput,
-  handleSearchInput,
+  setSearchInput,
 }: SearchInputBar) {
   return (
     <div className='h-[80px] bg-[#F9F9F9] flex items-center'>
@@ -17,7 +19,7 @@ export default function SearchInputBar({
         <input
           className='outline-none text-[16px] font-normal leading-[24px] placeholder:text-[#AAAAAA]'
           value={searchInput}
-          onChange={(e) => handleSearchInput(e.currentTarget.value)}
+          onChange={(e) => setSearchInput(e.currentTarget.value)}
           placeholder='상품명 검색'
         />
       </div>

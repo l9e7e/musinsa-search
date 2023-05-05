@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NoGoods from './NoGoods';
 import ToggleButtonList from './ToggleButtonList';
 import ToggledButtonList from './ToggledButtonList';
@@ -65,10 +65,6 @@ function App() {
     }
   };
 
-  const handleSearchInput = (searchInput: string) => {
-    setSearchInput(searchInput);
-  };
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (
@@ -107,20 +103,17 @@ function App() {
         {isToggledSearchInputBar && (
           <SearchInputBar
             searchInput={searchInput}
-            handleSearchInput={handleSearchInput}
+            setSearchInput={setSearchInput}
           />
         )}
       </div>
       <Line />
-      {goodsList.length === 0 && <NoGoods />}
-      {goodsList.length > 0 && (
-        <GoodsList
-          goodsList={goodsList}
-          nextFetchingRef={nextFetchingRef}
-          searchInput={searchInput}
-          toggledButtonList={toggledButtonList}
-        />
-      )}
+      <GoodsList
+        goodsList={goodsList}
+        nextFetchingRef={nextFetchingRef}
+        searchInput={searchInput}
+        toggledButtonList={toggledButtonList}
+      />
     </div>
   );
 }

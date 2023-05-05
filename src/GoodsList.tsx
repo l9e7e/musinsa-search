@@ -1,5 +1,6 @@
 import { Ref, SyntheticEvent } from 'react';
 import { Goods } from './App';
+import NoGoods from './NoGoods';
 
 interface GoodsList {
   goodsList: Goods[];
@@ -46,6 +47,10 @@ export default function GoodsList({
 
   if (searchInput) {
     list = list.filter((goods) => goods.goodsName.includes(searchInput));
+  }
+
+  if (list.length === 0) {
+    return <NoGoods />;
   }
 
   return (
