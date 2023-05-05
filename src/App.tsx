@@ -3,7 +3,7 @@ import ToggleButtonList from './ToggleButtonList';
 import ToggledButtonList from './ToggledButtonList';
 import MusinsaIcon from './MusinsaIcon';
 import SearchInputBar from './SearchInputBar';
-import Line from './Line';
+import DivdingLine from './DivdingLine';
 import GoodsList from './GoodsList';
 import StickyHeader from './StickyHeader';
 
@@ -107,7 +107,9 @@ function App() {
           />
         )}
       </StickyHeader>
-      <Line />
+      {(isToggledSearchInputBar || toggledButtonList.length > 0) && (
+        <DivdingLine />
+      )}
       <GoodsList
         goodsList={goodsList}
         nextFetchingRef={nextFetchingRef}

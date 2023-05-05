@@ -32,7 +32,7 @@ export default function ToggledButtonList({
           </div>
           <div className='w-[50px] h-[50px] flex justify-center items-center'>
             <button onClick={() => removeToggledButton()}>
-              <img src='/icon_refresh.png' className='!h-[32px] !w-[32px]' />
+              <img src='/icon_refresh.png' className='!h-[24px] !w-[24px]' />
             </button>
           </div>
         </div>
