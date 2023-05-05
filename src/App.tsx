@@ -80,7 +80,7 @@ function App() {
           </span>
         </button>
       </div>
-      <div className='h-[50px] flex items-center ml-[15px]'>
+      <div className='h-[50px] flex items-center justify-between ml-[15px]'>
         <div className='flex gap-[5px]'>
           <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
             <span className='text-[12px] font-normal leading-[18px]'>
@@ -126,43 +126,45 @@ function App() {
       </div>
       <div className='flex flex-wrap'>
         {goodsList.map((goods) => {
-          return (
-            <div className='basis-1/2' ref={goodsRef}>
-              <div className='relative'>
-                <img
-                  className='!h-[226px]'
-                  src={goods.imageUrl}
-                  onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-                    e.currentTarget.src = '/img_default.jpeg';
-                  }}
-                />
-                {goods.isExclusive && (
-                  <span className='text-[12px] font-normal leading-[18px] -tracking-[0.5px] absolute -bottom-[12px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
-                    단독
-                  </span>
-                )}
-              </div>
-              <div className='mx-[10px] mb-[20px]'>
-                <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
-                  {goods.brandName}
-                </p>
-                <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
-                  {goods.goodsName}
-                </p>
-                <div className='mt-[4px] flex justify-between'>
-                  <span className='text-[16px] font-medium leading-[24px]'>
-                    {goods.price.toLocaleString()}원
-                  </span>
-                  <span className='text-[16px] font-medium leading-[24px] text-[#FF0000]'>
-                    {goods.saleRate}%
-                  </span>
+          if (!goods.isSoldOut) {
+            return (
+              <div className='basis-1/2' ref={goodsRef}>
+                <div className='relative'>
+                  <img
+                    className='!h-[226px]'
+                    src={goods.imageUrl}
+                    onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+                      e.currentTarget.src = '/img_default.jpeg';
+                    }}
+                  />
+                  {goods.isExclusive && (
+                    <span className='text-[12px] font-normal leading-[18px] -tracking-[0.5px] absolute -bottom-[12px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
+                      단독
+                    </span>
+                  )}
                 </div>
-                <p className='text-[11px] font-normal leading-[12px] line-through text-[#AAAAAA]'>
-                  {goods.normalPrice.toLocaleString()}
-                </p>
+                <div className='mx-[10px] mb-[20px]'>
+                  <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
+                    {goods.brandName}
+                  </p>
+                  <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
+                    {goods.goodsName}
+                  </p>
+                  <div className='mt-[4px] flex justify-between'>
+                    <span className='text-[16px] font-medium leading-[24px]'>
+                      {goods.price.toLocaleString()}원
+                    </span>
+                    <span className='text-[16px] font-medium leading-[24px] text-[#FF0000]'>
+                      {goods.saleRate}%
+                    </span>
+                  </div>
+                  <p className='text-[11px] font-normal leading-[12px] line-through text-[#AAAAAA]'>
+                    {goods.normalPrice.toLocaleString()}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
+            );
+          }
         })}
       </div>
     </div>
