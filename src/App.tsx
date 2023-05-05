@@ -12,33 +12,32 @@ import { Button, Goods } from './type';
 function App() {
   const nextFetchingRef = useRef(null);
   const fetchingIndexRef = useRef(0);
-  const mountRef = useRef(false);
 
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
   const [isToggledSearchInputBar, setIsToggledSearchInputBar] = useState(false);
   const [toggledButtonList, setToggledButtonList] = useState<Button[]>([]);
   const [searchInput, setSearchInput] = useState('');
-
-  useEffect(() => {
-    if (mountRef.current) {
-      fetchGoodsList();
-    } else {
-      mountRef.current = true;
-    }
-  }, []);
+  const [isFetching, setIsFetching] = useState(false);
 
   const fetchGoodsList = async () => {
+    setIsFetching(true);
+
     try {
       const response = await fetch(
         `https://static.msscdn.net/musinsaUI/homework/data/goods${fetchingIndexRef.current}.json`
       );
+
       const {
         data: { list },
       } = await response.json();
+
+      fetchingIndexRef.current += 1;
       setGoodsList([...goodsList, ...list]);
     } catch (e) {
       console.error(e);
       setGoodsList(goodsList);
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -74,10 +73,9 @@ function App() {
         observer: IntersectionObserver
       ) => {
         if (entry.isIntersecting) {
-          if (fetchingIndexRef.current === 3) {
+          if (fetchingIndexRef.current > 3) {
             observer.disconnect();
-          } else if (goodsList.length > 0) {
-            fetchingIndexRef.current += 1;
+          } else {
             fetchGoodsList();
           }
         }
@@ -117,6 +115,7 @@ function App() {
         nextFetchingRef={nextFetchingRef}
         searchInput={searchInput}
         toggledButtonList={toggledButtonList}
+        isFetching={isFetching}
       />
     </div>
   );
