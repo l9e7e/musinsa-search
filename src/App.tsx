@@ -2,6 +2,7 @@ import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import NoResult from './NoResult';
 import ToggleButtonSection from './ToggleButtonSection';
 import ToggledButtonSection from './ToggledButtonSection';
+import IconHeader from './IconHeader';
 
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
@@ -94,9 +95,7 @@ function App() {
   return (
     <div className='w-[375px] mx-auto'>
       <div className='sticky top-0 z-10 bg-white'>
-        <div className='flex justify-center items-center h-[50px]'>
-          <img className='!h-[16px]' src='/logo_musinsa.svg' />
-        </div>
+        <IconHeader />
         <ToggleButtonSection
           toggleButtonList={['검색', '세일상품', '단독상품', '품절포함']}
           handleToggleButton={handleToggleButton}
