@@ -1,6 +1,6 @@
 function App() {
   return (
-    <div>
+    <div className='w-[375px] mx-auto'>
       <div className='flex justify-center items-center h-[50px]'>
         <img className='!h-[16px]' src='/logo_musinsa.svg' />
       </div>
