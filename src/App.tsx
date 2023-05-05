@@ -58,40 +58,52 @@ function App() {
       </div>
       <div className='flex items-center justify-center h-[55px] gap-[5px] mx-[7px]'>
         <button className='flex items-center h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
-          검색
+          <span className='text-[14px] font-normal leading-[21px]'>검색</span>
           <img
             className='ml-[6px] !h-[15px] !w-[15px]'
             src='/logo_search.png'
           />
         </button>
         <button className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
-          세일상품
+          <span className='text-[14px] font-normal leading-[21px]'>
+            세일상품
+          </span>
         </button>
         <button className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
-          단독상품
+          <span className='text-[14px] font-normal leading-[21px]'>
+            단독상품
+          </span>
         </button>
         <button className='h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]'>
-          품절포함
+          <span className='text-[14px] font-normal leading-[21px]'>
+            품절포함
+          </span>
         </button>
       </div>
       <div className='h-[50px] flex items-center ml-[15px]'>
         <div className='flex gap-[5px]'>
           <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
-            스니커즈
+            <span className='text-[12px] font-normal leading-[18px]'>
+              스니커즈
+            </span>
             <img
               className='ml-[6px] !h-[15px] !w-[15px]'
               src='/logo_search.png'
             />
           </button>
           <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
-            세일상품
+            <span className='text-[12px] font-normal leading-[18px]'>
+              세일상품
+            </span>
             <img
               className='ml-[6px] !h-[15px] !w-[15px]'
               src='/logo_search.png'
             />
           </button>
           <button className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'>
-            단독상품
+            <span className='text-[12px] font-normal leading-[18px]'>
+              단독상품
+            </span>
             <img
               className='ml-[6px] !h-[15px] !w-[15px]'
               src='/logo_search.png'
@@ -106,7 +118,10 @@ function App() {
             className='ml-[10px] mr-[4px] !h-[19px] !w-[19px]'
             src='/logo_search.png'
           />
-          <input className='outline-none' placeholder='상품명 검색' />
+          <input
+            className='outline-none text-[16px] font-normal leading-[24px] placeholder:text-[#AAAAAA]'
+            placeholder='상품명 검색'
+          />
         </div>
       </div>
       <div className='flex flex-wrap'>
@@ -122,19 +137,29 @@ function App() {
                   }}
                 />
                 {goods.isExclusive && (
-                  <span className='absolute -bottom-[16px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
+                  <span className='text-[12px] font-normal leading-[18px] -tracking-[0.5px] absolute -bottom-[12px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
                     단독
                   </span>
                 )}
               </div>
-              <div className='mx-[10px]'>
-                <div className='mt-[20px]'>{goods.brandName}</div>
-                <div className='line-clamp-2 break-all'>{goods.goodsName}</div>
-                <div className='flex justify-between'>
-                  <span>{goods.price}</span>
-                  <span>{goods.saleRate}</span>
+              <div className='mx-[10px] mb-[20px]'>
+                <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
+                  {goods.brandName}
+                </p>
+                <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
+                  {goods.goodsName}
+                </p>
+                <div className='mt-[4px] flex justify-between'>
+                  <span className='text-[16px] font-medium leading-[24px]'>
+                    {goods.price.toLocaleString()}원
+                  </span>
+                  <span className='text-[16px] font-medium leading-[24px] text-[#FF0000]'>
+                    {goods.saleRate}%
+                  </span>
                 </div>
-                <div>{goods.normalPrice}</div>
+                <p className='text-[11px] font-normal leading-[12px] line-through text-[#AAAAAA]'>
+                  {goods.normalPrice.toLocaleString()}
+                </p>
               </div>
             </div>
           );
