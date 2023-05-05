@@ -2,10 +2,12 @@ import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
+  const originGoodsList = useRef<Goods[]>([]);
   const goodsRef = useRef(null);
   const fetchingIndexRef = useRef(0);
   const [isToggledSearchButton, setIsToggledSearchButton] = useState(false);
   const [filterdButtonList, setFilteredButtonList] = useState<string[]>([]);
+  const [searchInputValue, setSearchInputValue] = useState('');
 
   const fetchGoodsList = async () => {
     try {
@@ -17,9 +19,11 @@ function App() {
       } = await response.json();
 
       setGoodsList([...goodsList, ...list]);
+      originGoodsList.current = [...goodsList, ...list];
     } catch (e) {
       console.error(e);
       setGoodsList(goodsList);
+      originGoodsList.current = goodsList;
     }
   };
 
@@ -39,6 +43,18 @@ function App() {
     }
   };
 
+  const handleSearch = (searchInputValue: string) => {
+    setSearchInputValue(searchInputValue);
+
+    const searchedGoodsList = originGoodsList.current.filter((goods) => {
+      if (goods.goodsName.includes(searchInputValue)) {
+        return goods;
+      }
+    });
+
+    setGoodsList(searchedGoodsList);
+  };
+
   useEffect(() => {
     fetchGoodsList();
   }, []);
@@ -51,7 +67,6 @@ function App() {
       ) => {
         if (entry.isIntersecting) {
           if (fetchingIndexRef.current === 3) {
-            fetchingIndexRef.current = 0;
             observer.disconnect();
           } else {
             fetchingIndexRef.current += 1;
@@ -143,6 +158,8 @@ function App() {
               />
               <input
                 className='outline-none text-[16px] font-normal leading-[24px] placeholder:text-[#AAAAAA]'
+                value={searchInputValue}
+                onChange={(e) => handleSearch(e.currentTarget.value)}
                 placeholder='상품명 검색'
               />
             </div>
@@ -152,45 +169,43 @@ function App() {
       <div className='h-[10px] bg-[#F1F1F1]' />
       <div className='flex flex-wrap'>
         {goodsList.map((goods, index) => {
-          if (!goods.isSoldOut) {
-            return (
-              <div key={index} className='basis-1/2' ref={goodsRef}>
-                <div className='relative'>
-                  <img
-                    className='!h-[226px]'
-                    src={goods.imageUrl}
-                    onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-                      e.currentTarget.src = '/img_default.jpeg';
-                    }}
-                  />
-                  {goods.isExclusive && (
-                    <span className='text-[12px] font-normal leading-[18px] -tracking-[0.5px] absolute -bottom-[12px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
-                      단독
-                    </span>
-                  )}
-                </div>
-                <div className='mx-[10px] mb-[20px]'>
-                  <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
-                    {goods.brandName}
-                  </p>
-                  <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
-                    {goods.goodsName}
-                  </p>
-                  <div className='mt-[4px] flex justify-between'>
-                    <span className='text-[16px] font-medium leading-[24px]'>
-                      {goods.price.toLocaleString()}원
-                    </span>
-                    <span className='text-[16px] font-medium leading-[24px] text-[#FF0000]'>
-                      {goods.saleRate}%
-                    </span>
-                  </div>
-                  <p className='text-[11px] font-normal leading-[12px] line-through text-[#AAAAAA]'>
-                    {goods.normalPrice.toLocaleString()}
-                  </p>
-                </div>
+          return (
+            <div key={index} className='basis-1/2' ref={goodsRef}>
+              <div className='relative'>
+                <img
+                  className='!h-[226px]'
+                  src={goods.imageUrl}
+                  onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+                    e.currentTarget.src = '/img_default.jpeg';
+                  }}
+                />
+                {goods.isExclusive && (
+                  <span className='text-[12px] font-normal leading-[18px] -tracking-[0.5px] absolute -bottom-[12px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
+                    단독
+                  </span>
+                )}
               </div>
-            );
-          }
+              <div className='mx-[10px] mb-[20px]'>
+                <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
+                  {goods.brandName}
+                </p>
+                <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
+                  {goods.goodsName}
+                </p>
+                <div className='mt-[4px] flex justify-between'>
+                  <span className='text-[16px] font-medium leading-[24px]'>
+                    {goods.price.toLocaleString()}원
+                  </span>
+                  <span className='text-[16px] font-medium leading-[24px] text-[#FF0000]'>
+                    {goods.saleRate}%
+                  </span>
+                </div>
+                <p className='text-[11px] font-normal leading-[12px] line-through text-[#AAAAAA]'>
+                  {goods.normalPrice.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          );
         })}
       </div>
     </div>
