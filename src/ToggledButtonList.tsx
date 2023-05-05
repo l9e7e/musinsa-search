@@ -1,6 +1,6 @@
 interface ToggledButtonList {
   toggledButtonList: string[];
-  removeToggledButton: (button: string) => void;
+  removeToggledButton: (toggledButton?: string) => void;
 }
 
 export default function ToggledButtonList({
@@ -31,7 +31,7 @@ export default function ToggledButtonList({
             })}
           </div>
           <div className='w-[50px] h-[50px] flex justify-center items-center'>
-            <button>
+            <button onClick={() => removeToggledButton()}>
               <img src='/icon_refresh.png' className='!h-[32px] !w-[32px]' />
             </button>
           </div>

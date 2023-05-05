@@ -43,7 +43,12 @@ function App() {
     }
   };
 
-  const removeToggledButton = (toggleButton: string) => {
+  const removeToggledButton = (toggleButton?: string) => {
+    if (!toggleButton) {
+      setToggledButtonList([]);
+      return;
+    }
+
     setToggledButtonList(
       toggledButtonList.filter(
         (filterdButton) => filterdButton !== toggleButton
