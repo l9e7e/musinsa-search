@@ -1,16 +1,18 @@
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import NoResult from './NoResult';
-import ToggleButtonSection from './ToggleButtonSection';
-import ToggledButtonSection from './ToggledButtonSection';
-import IconHeader from './IconHeader';
+import NoGoods from './NoGoods';
+import ToggleButtonList from './ToggleButtonList';
+import ToggledButtonList from './ToggledButtonList';
+import MusinsaIcon from './MusinsaIcon';
 import SearchInputBar from './SearchInputBar';
+import Line from './Line';
+import GoodsList from './GoodsList';
 
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
   const originGoodsList = useRef<Goods[]>([]);
   const goodsRef = useRef(null);
   const fetchingIndexRef = useRef(0);
-  const [isToggledSearchButton, setIsToggledSearchButton] = useState(false);
+  const [isToggledSearchInputBar, setIsToggledSearchInputBar] = useState(false);
   const [toggledButtonList, setToggledButtonList] = useState<string[]>([]);
   const [searchInput, setSearchInput] = useState('');
 
@@ -42,7 +44,7 @@ function App() {
 
   const handleToggleButton = (clickedFilteredButton: string) => {
     if (clickedFilteredButton === '검색') {
-      setIsToggledSearchButton(!isToggledSearchButton);
+      setIsToggledSearchInputBar(!isToggledSearchInputBar);
     } else {
       if (toggledButtonList.includes(clickedFilteredButton)) {
         removeToggledButton(clickedFilteredButton);
@@ -96,66 +98,26 @@ function App() {
   return (
     <div className='w-[375px] mx-auto'>
       <div className='sticky top-0 z-10 bg-white'>
-        <IconHeader />
-        <ToggleButtonSection
+        <MusinsaIcon />
+        <ToggleButtonList
           toggleButtonList={['검색', '세일상품', '단독상품', '품절포함']}
           handleToggleButton={handleToggleButton}
         />
-        <ToggledButtonSection
+        <ToggledButtonList
           toggledButtonList={toggledButtonList}
           removeToggledButton={removeToggledButton}
         />
-        {isToggledSearchButton && (
+        {isToggledSearchInputBar && (
           <SearchInputBar
             searchInput={searchInput}
             handleSearchInput={handleSearchInput}
           />
         )}
       </div>
-      <div className='h-[10px] bg-[#F1F1F1]' />
-      {goodsList.length === 0 && <NoResult />}
+      <Line />
+      {goodsList.length === 0 && <NoGoods />}
       {goodsList.length > 0 && (
-        <div className='flex flex-wrap'>
-          {goodsList.map((goods, index) => {
-            return (
-              <div key={index} className='basis-1/2' ref={goodsRef}>
-                <div className='relative'>
-                  <img
-                    className='!h-[226px]'
-                    src={goods.imageUrl}
-                    onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-                      e.currentTarget.src = '/img_default.jpeg';
-                    }}
-                  />
-                  {goods.isExclusive && (
-                    <span className='text-[12px] font-normal leading-[18px] -tracking-[0.5px] absolute -bottom-[12px] left-[10px] text-white bg-[#18A286] px-[6px] py-[4px]'>
-                      단독
-                    </span>
-                  )}
-                </div>
-                <div className='mx-[10px] mb-[20px]'>
-                  <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
-                    {goods.brandName}
-                  </p>
-                  <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
-                    {goods.goodsName}
-                  </p>
-                  <div className='mt-[4px] flex justify-between'>
-                    <span className='text-[16px] font-medium leading-[24px]'>
-                      {goods.price.toLocaleString()}원
-                    </span>
-                    <span className='text-[16px] font-medium leading-[24px] text-[#FF0000]'>
-                      {goods.saleRate}%
-                    </span>
-                  </div>
-                  <p className='text-[11px] font-normal leading-[12px] line-through text-[#AAAAAA]'>
-                    {goods.normalPrice.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <GoodsList goodsList={goodsList} goodsRef={goodsRef} />
       )}
     </div>
   );
@@ -163,7 +125,7 @@ function App() {
 
 export default App;
 
-interface Goods {
+export interface Goods {
   goodsNo: number;
   goodsName: string;
   price: number;

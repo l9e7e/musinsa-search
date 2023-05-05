@@ -1,18 +1,19 @@
-interface ToggleButtonSection {
+interface TopggleButtonList {
   toggleButtonList: string[];
   handleToggleButton: (value: string) => void;
 }
 
-export default function ToggleButtonSection({
+export default function TopggleButtonList({
   toggleButtonList,
   handleToggleButton,
-}: ToggleButtonSection) {
+}: TopggleButtonList) {
   return (
     <div className='flex items-center justify-center h-[55px] gap-[5px] mx-[7px]'>
-      {toggleButtonList.map((toggleButton) => {
+      {toggleButtonList.map((toggleButton, index) => {
         const isSearchToggleButton = toggleButton === '검색';
         return (
           <button
+            key={index}
             className={`${
               isSearchToggleButton ? `flex items-center ` : ''
             }h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]`}
