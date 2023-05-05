@@ -4,17 +4,44 @@ import { Goods } from './App';
 interface GoodsList {
   goodsList: Goods[];
   goodsRef: Ref<HTMLDivElement>;
-  isToggledSoldOut: boolean;
+  searchInput: string;
+  toggledButtonList: string[];
 }
 
 export default function GoodsList({
   goodsList,
   goodsRef,
-  isToggledSoldOut,
+  toggledButtonList,
 }: GoodsList) {
-  const list = !isToggledSoldOut
-    ? goodsList.filter((goods) => !goods.isSoldOut)
-    : goodsList;
+  const isToggledSoldOut = toggledButtonList.includes('품절포함');
+  const isToggledSale = toggledButtonList.includes('세일상품');
+  const isToggledExclusive = toggledButtonList.includes('단독상품');
+
+  let list: Goods[] = goodsList.filter((goods) => !goods.isSoldOut);
+
+  if (isToggledSale) {
+    list = goodsList.filter((goods) => goods.isSale);
+  }
+
+  if (isToggledExclusive) {
+    list = goodsList.filter((goods) => goods.isExclusive);
+  }
+
+  if (isToggledSoldOut) {
+    list = goodsList;
+  }
+
+  if (isToggledSale && isToggledExclusive) {
+    list = goodsList.filter((goods) => goods.isSale && goods.isExclusive);
+  }
+
+  if (isToggledSale && isToggledSoldOut) {
+    list = goodsList.filter((goods) => goods.isSale && goods.isSoldOut);
+  }
+
+  if (isToggledExclusive && isToggledSoldOut) {
+    list = goodsList.filter((goods) => goods.isExclusive && goods.isSoldOut);
+  }
 
   return (
     <div className='flex flex-wrap'>

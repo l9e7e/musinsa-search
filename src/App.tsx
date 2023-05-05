@@ -87,10 +87,6 @@ function App() {
   }, [searchInput]);
 
   useEffect(() => {
-    let goodsList: Goods[] = [];
-  }, [toggledButtonList]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (
         entries: IntersectionObserverEntry[],
@@ -143,7 +139,8 @@ function App() {
         <GoodsList
           goodsList={goodsList}
           goodsRef={goodsRef}
-          isToggledSoldOut={toggledButtonList.includes('품절포함')}
+          searchInput={searchInput}
+          toggledButtonList={toggledButtonList}
         />
       )}
     </div>
