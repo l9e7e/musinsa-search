@@ -8,14 +8,14 @@ import Line from './Line';
 import GoodsList from './GoodsList';
 
 function App() {
-  const [goodsList, setGoodsList] = useState<Goods[]>([]);
-  const originGoodsList = useRef<Goods[]>([]);
-  const goodsRef = useRef(null);
+  const nextFetchingRef = useRef(null);
   const fetchingIndexRef = useRef(0);
+  const mountRef = useRef(false);
+
+  const [goodsList, setGoodsList] = useState<Goods[]>([]);
   const [isToggledSearchInputBar, setIsToggledSearchInputBar] = useState(false);
   const [toggledButtonList, setToggledButtonList] = useState<string[]>([]);
   const [searchInput, setSearchInput] = useState('');
-  const mountRef = useRef(false);
 
   useEffect(() => {
     if (mountRef.current) {
@@ -34,11 +34,9 @@ function App() {
         data: { list },
       } = await response.json();
       setGoodsList([...goodsList, ...list]);
-      originGoodsList.current = [...goodsList, ...list];
     } catch (e) {
       console.error(e);
       setGoodsList(goodsList);
-      originGoodsList.current = goodsList;
     }
   };
 
@@ -58,10 +56,7 @@ function App() {
   const handleToggleButton = (toggleButton: string) => {
     if (toggleButton === '검색') {
       setIsToggledSearchInputBar(!isToggledSearchInputBar);
-      setToggledButtonList([]);
     } else {
-      setIsToggledSearchInputBar(false);
-
       if (toggledButtonList.includes(toggleButton)) {
         removeToggledButton(toggleButton);
       } else {
@@ -75,40 +70,23 @@ function App() {
   };
 
   useEffect(() => {
-    setGoodsList(
-      searchInput
-        ? originGoodsList.current.filter((originGoods) => {
-            if (originGoods.goodsName.includes(searchInput)) {
-              return originGoods;
-            }
-          })
-        : originGoodsList.current
-    );
-  }, [searchInput]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (
-        entries: IntersectionObserverEntry[],
+        [entry]: IntersectionObserverEntry[],
         observer: IntersectionObserver
       ) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !searchInput) {
-            if (fetchingIndexRef.current === 3) {
-              observer.disconnect();
-            } else {
-              fetchingIndexRef.current += 1;
-              fetchGoodsList();
-            }
+        if (entry.isIntersecting) {
+          if (fetchingIndexRef.current === 3) {
+            observer.disconnect();
+          } else {
+            fetchingIndexRef.current += 1;
+            fetchGoodsList();
           }
-        });
-      },
-      {
-        threshold: 1,
+        }
       }
     );
 
-    goodsRef.current && observer.observe(goodsRef.current);
+    nextFetchingRef.current && observer.observe(nextFetchingRef.current);
     return () => observer && observer.disconnect();
   }, [goodsList]);
 
@@ -138,7 +116,7 @@ function App() {
       {goodsList.length > 0 && (
         <GoodsList
           goodsList={goodsList}
-          goodsRef={goodsRef}
+          nextFetchingRef={nextFetchingRef}
           searchInput={searchInput}
           toggledButtonList={toggledButtonList}
         />

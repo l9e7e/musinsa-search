@@ -3,14 +3,15 @@ import { Goods } from './App';
 
 interface GoodsList {
   goodsList: Goods[];
-  goodsRef: Ref<HTMLDivElement>;
+  nextFetchingRef: Ref<HTMLDivElement>;
   searchInput: string;
   toggledButtonList: string[];
 }
 
 export default function GoodsList({
   goodsList,
-  goodsRef,
+  nextFetchingRef,
+  searchInput,
   toggledButtonList,
 }: GoodsList) {
   const isToggledSoldOut = toggledButtonList.includes('품절포함');
@@ -41,6 +42,10 @@ export default function GoodsList({
 
   if (isToggledExclusive && isToggledSoldOut) {
     list = goodsList.filter((goods) => goods.isExclusive && goods.isSoldOut);
+  }
+
+  if (searchInput) {
+    list = list.filter((goods) => goods.goodsName.includes(searchInput));
   }
 
   return (
@@ -91,7 +96,7 @@ export default function GoodsList({
           </div>
         );
       })}
-      <div ref={goodsRef} />
+      <div ref={nextFetchingRef} />
     </div>
   );
 }
