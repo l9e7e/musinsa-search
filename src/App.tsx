@@ -1,7 +1,7 @@
 function App() {
   return (
     <div>
-      <div>
+      <div className='flex'>
         <img src='/logo_musinsa.svg' />
       </div>
     </div>
