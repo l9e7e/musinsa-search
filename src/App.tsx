@@ -3,6 +3,7 @@ import NoResult from './NoResult';
 import ToggleButtonSection from './ToggleButtonSection';
 import ToggledButtonSection from './ToggledButtonSection';
 import IconHeader from './IconHeader';
+import SearchInputBar from './SearchInputBar';
 
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
@@ -11,7 +12,7 @@ function App() {
   const fetchingIndexRef = useRef(0);
   const [isToggledSearchButton, setIsToggledSearchButton] = useState(false);
   const [toggledButtonList, setToggledButtonList] = useState<string[]>([]);
-  const [searchInputValue, setSearchInputValue] = useState('');
+  const [searchInput, setSearchInput] = useState('');
 
   const fetchGoodsList = async () => {
     try {
@@ -51,11 +52,11 @@ function App() {
     }
   };
 
-  const handleSearch = (searchInputValue: string) => {
-    setSearchInputValue(searchInputValue);
+  const handleSearchInput = (searchInput: string) => {
+    setSearchInput(searchInput);
 
     const searchedGoodsList = originGoodsList.current.filter((goods) => {
-      if (goods.goodsName.includes(searchInputValue)) {
+      if (goods.goodsName.includes(searchInput)) {
         return goods;
       }
     });
@@ -105,20 +106,10 @@ function App() {
           removeToggledButton={removeToggledButton}
         />
         {isToggledSearchButton && (
-          <div className='h-[80px] bg-[#F9F9F9] flex items-center'>
-            <div className='h-[40px] bg-[#FFFFFF] flex items-center mx-[10px] w-full border border-solid border-[#CCCCCC]'>
-              <img
-                className='ml-[10px] mr-[4px] !h-[19px] !w-[19px]'
-                src='/logo_search.png'
-              />
-              <input
-                className='outline-none text-[16px] font-normal leading-[24px] placeholder:text-[#AAAAAA]'
-                value={searchInputValue}
-                onChange={(e) => handleSearch(e.currentTarget.value)}
-                placeholder='상품명 검색'
-              />
-            </div>
-          </div>
+          <SearchInputBar
+            searchInput={searchInput}
+            handleSearchInput={handleSearchInput}
+          />
         )}
       </div>
       <div className='h-[10px] bg-[#F1F1F1]' />
