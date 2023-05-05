@@ -1,4 +1,28 @@
+import { useEffect, useState } from 'react';
+
 function App() {
+  const [goods, setGoods] = useState([]);
+
+  const fetchGoods = async () => {
+    try {
+      const response = await fetch(
+        `https://static.msscdn.net/musinsaUI/homework/data/goods0.json`
+      );
+      const {
+        data: { list },
+      } = await response.json();
+
+      setGoods(list);
+    } catch (e) {
+      console.error(e);
+      setGoods([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchGoods();
+  }, []);
+
   return (
     <div className='w-[375px] mx-auto'>
       <div className='flex justify-center items-center h-[50px]'>
