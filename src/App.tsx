@@ -1,7 +1,8 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
+  const goodsRef = useRef(null);
 
   const fetchGoodsList = async () => {
     try {
@@ -23,7 +24,22 @@ function App() {
     fetchGoodsList();
   }, []);
 
-  console.log(goodsList);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]: IntersectionObserverEntry[]) => {
+        if (entry.isIntersecting) {
+          console.log(entry);
+        }
+      },
+      {
+        threshold: 1,
+      }
+    );
+
+    goodsRef.current && observer.observe(goodsRef.current);
+
+    return () => observer && observer.disconnect();
+  }, [goodsList]);
 
   return (
     <div className='w-[375px] mx-auto'>
@@ -86,7 +102,7 @@ function App() {
       <div className='flex flex-wrap'>
         {goodsList.map((goods) => {
           return (
-            <div className='basis-1/2'>
+            <div className='basis-1/2' ref={goodsRef}>
               <div className='relative'>
                 <img
                   className='!h-[226px]'
