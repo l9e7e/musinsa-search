@@ -33,7 +33,6 @@ function App() {
       const {
         data: { list },
       } = await response.json();
-
       setGoodsList([...goodsList, ...list]);
       originGoodsList.current = [...goodsList, ...list];
     } catch (e) {
@@ -62,33 +61,11 @@ function App() {
       setToggledButtonList([]);
     } else {
       setIsToggledSearchInputBar(false);
+
       if (toggledButtonList.includes(toggleButton)) {
         removeToggledButton(toggleButton);
       } else {
         setToggledButtonList([...toggledButtonList, toggleButton]);
-
-        let searchedGoodsList: Goods[] = [];
-
-        if (toggleButton === '세일상품') {
-          searchedGoodsList = originGoodsList.current.filter((goods) => {
-            if (goods.isSale) {
-              return goods;
-            }
-          });
-        } else if (toggleButton === '단독상품') {
-          searchedGoodsList = originGoodsList.current.filter((goods) => {
-            if (goods.isExclusive) {
-              return goods;
-            }
-          });
-        } else {
-          searchedGoodsList = originGoodsList.current.filter((goods) => {
-            if (goods.isSoldOut) {
-              return goods;
-            }
-          });
-        }
-        setGoodsList(searchedGoodsList);
       }
     }
   };
@@ -100,9 +77,9 @@ function App() {
   useEffect(() => {
     setGoodsList(
       searchInput
-        ? originGoodsList.current.filter((goods) => {
-            if (goods.goodsName.includes(searchInput)) {
-              return goods;
+        ? originGoodsList.current.filter((originGoods) => {
+            if (originGoods.goodsName.includes(searchInput)) {
+              return originGoods;
             }
           })
         : originGoodsList.current
@@ -110,7 +87,7 @@ function App() {
   }, [searchInput]);
 
   useEffect(() => {
-    console.log(toggledButtonList);
+    let goodsList: Goods[] = [];
   }, [toggledButtonList]);
 
   useEffect(() => {
@@ -120,7 +97,7 @@ function App() {
         observer: IntersectionObserver
       ) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !searchInput) {
             if (fetchingIndexRef.current === 3) {
               observer.disconnect();
             } else {
@@ -136,7 +113,6 @@ function App() {
     );
 
     goodsRef.current && observer.observe(goodsRef.current);
-
     return () => observer && observer.disconnect();
   }, [goodsList]);
 
@@ -164,7 +140,11 @@ function App() {
       <Line />
       {goodsList.length === 0 && <NoGoods />}
       {goodsList.length > 0 && (
-        <GoodsList goodsList={goodsList} goodsRef={goodsRef} />
+        <GoodsList
+          goodsList={goodsList}
+          goodsRef={goodsRef}
+          isToggledSoldOut={toggledButtonList.includes('품절포함')}
+        />
       )}
     </div>
   );

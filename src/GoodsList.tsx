@@ -4,14 +4,23 @@ import { Goods } from './App';
 interface GoodsList {
   goodsList: Goods[];
   goodsRef: Ref<HTMLDivElement>;
+  isToggledSoldOut: boolean;
 }
 
-export default function GoodsList({ goodsList, goodsRef }: GoodsList) {
+export default function GoodsList({
+  goodsList,
+  goodsRef,
+  isToggledSoldOut,
+}: GoodsList) {
+  const list = !isToggledSoldOut
+    ? goodsList.filter((goods) => !goods.isSoldOut)
+    : goodsList;
+
   return (
     <div className='flex flex-wrap'>
-      {goodsList.map((goods, index) => {
+      {list.map((goods, index) => {
         return (
-          <div key={index} className='basis-1/2' ref={goodsRef}>
+          <div key={index} className='basis-1/2'>
             <div className='relative'>
               {goods.isSoldOut && (
                 <div className='h-[226px] w-full absolute bg-white opacity-80 flex items-center justify-center'>
@@ -55,6 +64,7 @@ export default function GoodsList({ goodsList, goodsRef }: GoodsList) {
           </div>
         );
       })}
+      <div ref={goodsRef} />
     </div>
   );
 }
