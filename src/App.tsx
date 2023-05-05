@@ -9,7 +9,7 @@ function App() {
   const goodsRef = useRef(null);
   const fetchingIndexRef = useRef(0);
   const [isToggledSearchButton, setIsToggledSearchButton] = useState(false);
-  const [filterdButtonList, setFilteredButtonList] = useState<string[]>([]);
+  const [toggledButtonList, setToggledButtonList] = useState<string[]>([]);
   const [searchInputValue, setSearchInputValue] = useState('');
 
   const fetchGoodsList = async () => {
@@ -31,8 +31,8 @@ function App() {
   };
 
   const removeToggledButton = (clickedFilteredButton: string) => {
-    setFilteredButtonList(
-      filterdButtonList.filter(
+    setToggledButtonList(
+      toggledButtonList.filter(
         (filterdButton) => filterdButton !== clickedFilteredButton
       )
     );
@@ -42,10 +42,10 @@ function App() {
     if (clickedFilteredButton === '검색') {
       setIsToggledSearchButton(!isToggledSearchButton);
     } else {
-      if (filterdButtonList.includes(clickedFilteredButton)) {
+      if (toggledButtonList.includes(clickedFilteredButton)) {
         removeToggledButton(clickedFilteredButton);
       } else {
-        setFilteredButtonList([...filterdButtonList, clickedFilteredButton]);
+        setToggledButtonList([...toggledButtonList, clickedFilteredButton]);
       }
     }
   };
@@ -102,7 +102,7 @@ function App() {
           handleToggleButton={handleToggleButton}
         />
         <ToggledButtonSection
-          filterdButtonList={filterdButtonList}
+          toggledButtonList={toggledButtonList}
           removeToggledButton={removeToggledButton}
         />
         {isToggledSearchButton && (
