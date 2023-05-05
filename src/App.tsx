@@ -3,20 +3,21 @@ import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 function App() {
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
   const goodsRef = useRef(null);
+  const fetchingIndexRef = useRef(0);
 
   const fetchGoodsList = async () => {
     try {
       const response = await fetch(
-        `https://static.msscdn.net/musinsaUI/homework/data/goods0.json`
+        `https://static.msscdn.net/musinsaUI/homework/data/goods${fetchingIndexRef.current}.json`
       );
       const {
         data: { list },
       } = await response.json();
 
-      setGoodsList(list);
+      setGoodsList([...goodsList, ...list]);
     } catch (e) {
       console.error(e);
-      setGoodsList([]);
+      setGoodsList(goodsList);
     }
   };
 
@@ -26,9 +27,18 @@ function App() {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]: IntersectionObserverEntry[]) => {
+      (
+        [entry]: IntersectionObserverEntry[],
+        observer: IntersectionObserver
+      ) => {
         if (entry.isIntersecting) {
-          console.log(entry);
+          if (fetchingIndexRef.current === 3) {
+            fetchingIndexRef.current = 0;
+            observer.disconnect();
+          } else {
+            fetchingIndexRef.current += 1;
+            fetchGoodsList();
+          }
         }
       },
       {
