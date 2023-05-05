@@ -13,6 +13,13 @@ export default function GoodsList({ goodsList, goodsRef }: GoodsList) {
         return (
           <div key={index} className='basis-1/2' ref={goodsRef}>
             <div className='relative'>
+              {goods.isSoldOut && (
+                <div className='h-[226px] w-full absolute bg-white opacity-80 flex items-center justify-center'>
+                  <span className='text-[20px] font-medium leading-[22px] text-[#777777]'>
+                    SOLD OUT
+                  </span>
+                </div>
+              )}
               <img
                 className='!h-[226px]'
                 src={goods.imageUrl}
