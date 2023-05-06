@@ -1,7 +1,5 @@
 import { Button, Goods } from "./type";
 
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const filterGoodsList = ({
   goodsList,
   toggledButtonList,

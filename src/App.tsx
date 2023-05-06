@@ -11,7 +11,6 @@ import Spinner from './components/Spinner';
 
 import { Button, Goods } from './type';
 import { TOGGLED_BUTTON_LIST } from './constant';
-import { delay } from './function';
 
 function App() {
   const ioRef = useRef(null);
@@ -25,7 +24,6 @@ function App() {
 
   const fetchGoodsList = async () => {
     setIsFetching(true);
-    await delay(300);
 
     try {
       const response = await fetch(
@@ -78,7 +76,6 @@ function App() {
         observer: IntersectionObserver
       ) => {
         if (entry.isIntersecting && !searchInput) {
-          // `fetchingIndexRef.current` === 4 is last
           if (fetchingIndexRef.current > 3) {
             observer.disconnect();
           } else {
@@ -89,7 +86,7 @@ function App() {
     );
 
     ioRef.current && observer.observe(ioRef.current);
-    return () => observer && observer.disconnect();
+    return () => observer.disconnect();
   }, [goodsList, searchInput]);
 
   return (
