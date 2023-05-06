@@ -1,7 +1,6 @@
-import { Ref, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import NoGoods from '../components/NoGoods';
 import { Button, Goods } from '../type';
-import Spinner from '../components/Spinner';
 import { filterGoodsList } from '../function';
 
 interface GoodsList {
@@ -26,7 +25,7 @@ export default function GoodsList({
   return (
     <>
       <div className='flex flex-wrap'>
-        {/* {list.length === 0 && !isFetching && <NoGoods />} */}
+        {list.length === 0 && !isFetching && <NoGoods />}
         {list.map((goods, index) => {
           return (
             <div key={index} className='basis-1/2'>
