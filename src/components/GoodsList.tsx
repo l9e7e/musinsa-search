@@ -30,7 +30,7 @@ export default function GoodsList({
         {list.map((goods, index) => {
           return (
             <div key={index} className='basis-1/2'>
-              <div className='relative'>
+              <a href={goods.linkUrl} target='_blank' className='relative'>
                 {goods.isSoldOut && (
                   <div className='h-[226px] w-full absolute bg-white opacity-80 flex items-center justify-center'>
                     <span className='text-[20px] font-medium leading-[22px] text-[#777777]'>
@@ -50,11 +50,15 @@ export default function GoodsList({
                     단독
                   </span>
                 )}
-              </div>
-              <div className='mx-[10px] mb-[20px]'>
-                <p className='text-[11px] font-normal leading-[16px] mt-[20px]'>
+              </a>
+              <div className='mx-[10px] mb-[20px] mt-[20px]'>
+                <a
+                  href={goods.brandLinkUrl}
+                  target='_blank'
+                  className='text-[11px] font-normal leading-[16px]'
+                >
                   {goods.brandName}
-                </p>
+                </a>
                 <p className='mt-[8px] text-[14px] font-bold leading-[18px] line-clamp-2 break-all'>
                   {goods.goodsName}
                 </p>
