@@ -1,4 +1,5 @@
 import { Button } from '../type';
+import cn from 'classnames';
 
 interface TopggleButtonList {
   toggleButtonList: Button[];
@@ -20,15 +21,16 @@ export default function TopggleButtonList({
         return (
           <button
             key={index}
-            className={`${
-              isSearchToggleButton ? `flex items-center ` : ''
-            }h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]${
-              (isToggledSearchInputBar && isSearchToggleButton) ||
-              toggledButtonList.includes(toggleButton)
-                ? ' text-[#0078FF]'
-                : ''
-            }`}
             onClick={() => handleToggleButton(toggleButton)}
+            className={cn(
+              'h-[35px] px-[15px] border border-solid rounded-[18px] border-[#EEEEEE]',
+              {
+                'flex items-center': isSearchToggleButton,
+                'text-[#0078FF]': toggledButtonList.includes(toggleButton),
+                'bg-[#0078FF] text-white':
+                  isToggledSearchInputBar && isSearchToggleButton,
+              }
+            )}
           >
             <span className='text-[14px] font-normal leading-[21px]'>
               {toggleButton}
