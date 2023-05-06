@@ -72,7 +72,7 @@ function App() {
         [entry]: IntersectionObserverEntry[],
         observer: IntersectionObserver
       ) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !searchInput) {
           if (fetchingIndexRef.current > 3) {
             observer.disconnect();
           } else {
@@ -84,7 +84,7 @@ function App() {
 
     nextFetchingRef.current && observer.observe(nextFetchingRef.current);
     return () => observer && observer.disconnect();
-  }, [goodsList]);
+  }, [goodsList, searchInput]);
 
   return (
     <div className='w-[375px] mx-auto'>
