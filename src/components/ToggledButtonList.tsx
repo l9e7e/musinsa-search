@@ -2,12 +2,12 @@ import { Button } from '../type';
 
 interface ToggledButtonList {
   toggledButtonList: Button[];
-  removeToggledButton: (toggledButton?: Button) => void;
+  handleToggledButton: (toggledButton?: Button) => void;
 }
 
 export default function ToggledButtonList({
   toggledButtonList,
-  removeToggledButton,
+  handleToggledButton,
 }: ToggledButtonList) {
   return (
     <>
@@ -19,7 +19,7 @@ export default function ToggledButtonList({
                 <button
                   key={index}
                   className='flex items-center h-[26px] px-[10px] rounded-[4px] bg-[#0078FF] text-[#FFFFFF]'
-                  onClick={() => removeToggledButton(toggledButton)}
+                  onClick={() => handleToggledButton(toggledButton)}
                 >
                   <span className='text-[12px] font-normal leading-[18px]'>
                     {toggledButton}
@@ -33,7 +33,7 @@ export default function ToggledButtonList({
             })}
           </div>
           <div className='w-[50px] h-[50px] flex justify-center items-center'>
-            <button onClick={() => removeToggledButton()}>
+            <button onClick={() => handleToggledButton()}>
               <img src='/icon_refresh.png' className='!h-[24px] !w-[24px]' />
             </button>
           </div>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+
 import StickyHeader from './components/StickyHeader';
 import MusinsaIcon from './components/MusinsaIcon';
 import ToggleButtonList from './components/ToggleButtonList';
@@ -6,11 +7,14 @@ import ToggledButtonList from './components/ToggledButtonList';
 import SearchInputBar from './components/SearchInputBar';
 import DivdingLine from './components/DivdingLine';
 import GoodsList from './components/GoodsList';
-import { TOGGLED_BUTTON_LIST } from './constant';
+import Spinner from './components/Spinner';
+
 import { Button, Goods } from './type';
+import { TOGGLED_BUTTON_LIST } from './constant';
+import { delay } from './function';
 
 function App() {
-  const nextFetchingRef = useRef(null);
+  const ioRef = useRef(null);
   const fetchingIndexRef = useRef(0);
 
   const [goodsList, setGoodsList] = useState<Goods[]>([]);
@@ -21,6 +25,7 @@ function App() {
 
   const fetchGoodsList = async () => {
     setIsFetching(true);
+    await delay(300);
 
     try {
       const response = await fetch(
@@ -41,7 +46,7 @@ function App() {
     }
   };
 
-  const removeToggledButton = (toggleButton?: Button) => {
+  const handleToggledButton = (toggleButton?: Button) => {
     if (toggleButton === undefined) {
       setToggledButtonList([]);
       return;
@@ -49,7 +54,7 @@ function App() {
 
     setToggledButtonList(
       toggledButtonList.filter(
-        (filterdButton) => filterdButton !== toggleButton
+        (toggledButton) => toggledButton !== toggleButton
       )
     );
   };
@@ -59,7 +64,7 @@ function App() {
       setIsToggledSearchInputBar(!isToggledSearchInputBar);
     } else {
       if (toggledButtonList.includes(toggleButton)) {
-        removeToggledButton(toggleButton);
+        handleToggledButton(toggleButton);
       } else {
         setToggledButtonList([...toggledButtonList, toggleButton]);
       }
@@ -73,6 +78,7 @@ function App() {
         observer: IntersectionObserver
       ) => {
         if (entry.isIntersecting && !searchInput) {
+          // `fetchingIndexRef.current` === 4 is last
           if (fetchingIndexRef.current > 3) {
             observer.disconnect();
           } else {
@@ -82,7 +88,7 @@ function App() {
       }
     );
 
-    nextFetchingRef.current && observer.observe(nextFetchingRef.current);
+    ioRef.current && observer.observe(ioRef.current);
     return () => observer && observer.disconnect();
   }, [goodsList, searchInput]);
 
@@ -98,7 +104,7 @@ function App() {
         />
         <ToggledButtonList
           toggledButtonList={toggledButtonList}
-          removeToggledButton={removeToggledButton}
+          handleToggledButton={handleToggledButton}
         />
         {isToggledSearchInputBar && (
           <SearchInputBar
@@ -112,11 +118,12 @@ function App() {
       )}
       <GoodsList
         goodsList={goodsList}
-        nextFetchingRef={nextFetchingRef}
         searchInput={searchInput}
         toggledButtonList={toggledButtonList}
         isFetching={isFetching}
       />
+      <div ref={ioRef} />
+      {isFetching && <Spinner />}
     </div>
   );
 }
