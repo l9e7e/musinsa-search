@@ -1,6 +1,6 @@
 import { Ref, SyntheticEvent } from 'react';
 import NoGoods from './NoGoods';
-import { Button, Goods } from './type';
+import { Button, Goods } from '../type';
 import Spinner from './Spinner';
 
 interface GoodsList {

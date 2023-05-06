@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import StickyHeader from './StickyHeader';
-import MusinsaIcon from './MusinsaIcon';
-import ToggleButtonList from './ToggleButtonList';
-import ToggledButtonList from './ToggledButtonList';
-import SearchInputBar from './SearchInputBar';
-import DivdingLine from './DivdingLine';
-import GoodsList from './GoodsList';
+import StickyHeader from './components/StickyHeader';
+import MusinsaIcon from './components/MusinsaIcon';
+import ToggleButtonList from './components/ToggleButtonList';
+import ToggledButtonList from './components/ToggledButtonList';
+import SearchInputBar from './components/SearchInputBar';
+import DivdingLine from './components/DivdingLine';
+import GoodsList from './components/GoodsList';
 import { TOGGLED_BUTTON_LIST } from './constant';
 import { Button, Goods } from './type';
 

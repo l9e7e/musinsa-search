@@ -1,4 +1,4 @@
-import { Button } from './type';
+import { Button } from '../type';
 
 interface TopggleButtonList {
   toggleButtonList: Button[];
