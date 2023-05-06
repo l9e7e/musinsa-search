@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react';
 import NoGoods from '../components/NoGoods';
 import { Button, Goods } from '../type';
-import { filterGoodsList } from '../function';
+import { getFilteredGoodsList } from '../function';
 
 interface GoodsList {
   goodsList: Goods[];
@@ -16,7 +16,7 @@ export default function GoodsList({
   toggledButtonList,
   isFetching,
 }: GoodsList) {
-  const list = filterGoodsList({
+  const list = getFilteredGoodsList({
     goodsList,
     toggledButtonList,
     searchInput,

@@ -1,6 +1,6 @@
 import { Button, Goods } from "./type";
 
-export const filterGoodsList = ({
+export const getFilteredGoodsList = ({
   goodsList,
   toggledButtonList,
   searchInput,
