@@ -55,4 +55,5 @@ http://localhost:3000/
     - SearchInputbar.tsx (검색 토글 버튼 누르면 나오는 영역. Input 포함)
   - DivdingLine.tsx (상품 리스트와 나누는 라인)
   - GoodsList.tsx (상품 리스트 영역)
+    - NoGoods.tsx (검색 필터링 상푸 없을 때)
   - Spinner.tsx (api 호출 시에 나오는 스피너)
